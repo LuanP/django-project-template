@@ -13,11 +13,16 @@ from fabric.context_managers import prefix, cd, settings, shell_env
 APP_USER = APP_NAME = VENV_NAME = '{{ project_name }}'
 REPO_URL = 'To be defined'
 
+ABS_PATH = os.path.dirname(__file__)
+KEY_FILEPATH = os.path.join(
+    ABS_PATH,                                                        
+    '.vagrant/machines/default/virtualbox/private_key' 
+)
 
 environments = {
     'dev': {
         'hosts': ['127.0.0.1'],
-        'key_filename': '~/.vagrant.d/insecure_private_key',
+        'key_filename': KEY_FILEPATH,
         'port': 2222,
         'is_vagrant': True,
         'superuser': 'vagrant',
@@ -28,7 +33,7 @@ DEFAULT_ENVIRONMENT = 'dev'
 env.user = APP_USER
 env.use_shell = False
 
-PROJECT_PATH = os.path.join(os.path.dirname(__file__))
+PROJECT_PATH = os.path.join(ABS_PATH)
 REPO_PATH = '/home/{}/{}'.format(APP_USER, APP_NAME)
 SOURCE_VENV = 'source /usr/local/bin/virtualenvwrapper.sh'
 WORKON_ENV = '{} && workon {}'.format(SOURCE_VENV, VENV_NAME)
