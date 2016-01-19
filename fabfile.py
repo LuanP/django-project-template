@@ -80,7 +80,9 @@ def mkvirtualenv():
 
 
 def manage(command):
-    default_settings = '{{ project_name }}.settings.{0}'.format(env.environment)
+    default_settings = '{{ project_name }}.settings.{0}'.format(
+        env.environment
+    )
     django_settings = env.get('django_settings', default_settings)
 
     with shell_env(DJANGO_SETTINGS_MODULE=django_settings):
@@ -149,6 +151,15 @@ def bootstrap():
             sudo('mv {} {}'.format(tmp_file, sudoers_file))
 
         sudo('apt-get update --fix-missing')
+
+    with settings(user=env.user):
+        bashrc = run('cat ~/.bashrc')
+        if 'DJANGO_SETTINGS_MODULE' not in bashrc:
+            default_settings = 'sentinel.settings.{0}'.format(
+                env.environment
+            )
+            run('echo "export DJANGO_SETTINGS_MODULE={0}" >> ~/.bashrc'.format(
+                default_settings))
 
 
 @task
