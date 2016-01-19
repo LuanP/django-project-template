@@ -155,7 +155,7 @@ def bootstrap():
     with settings(user=env.user):
         bashrc = run('cat ~/.bashrc')
         if 'DJANGO_SETTINGS_MODULE' not in bashrc:
-            default_settings = 'sentinel.settings.{0}'.format(
+            default_settings = '{{ project_name }}.settings.{0}'.format(
                 env.environment
             )
             run('echo "export DJANGO_SETTINGS_MODULE={0}" >> ~/.bashrc'.format(
