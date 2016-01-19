@@ -75,7 +75,7 @@ def install_requirements():
 def mkvirtualenv():
     if not exists('~/.virtualenvs/' + VENV_NAME):
         with prefix(SOURCE_VENV):
-            run('mkvirtualenv ' + VENV_NAME)
+            run('mkvirtualenv --python=/usr/bin/python3' + VENV_NAME)
             return True
 
 
